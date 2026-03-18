@@ -61,3 +61,42 @@ def get_cart_count(session: Session, user_id: int) -> int:
 
     return sum(item.quantity for item in cart_items)
 
+def remove_from_cart(session: Session, user_id: int, product_id: int) -> bool:
+    item = session.exec(
+        select(CartItem).where(
+            CartItem.user_id == user_id,
+            CartItem.product_id == product_id
+        )
+    ).first()
+
+    if not item:
+        return False 
+
+    session.delete(item)
+    session.commit() 
+
+    return True 
+
+
+def update_cart_item(session: Session, user_id: int, product_id: int, quantity: int) -> Optional[CartItem]:
+    item = session.exec(
+    select(CartItem).where(
+            CartItem.user_id == user_id,
+            CartItem.product_id == product_id
+        )
+    ).first()
+
+    if not item:
+        return None 
+
+    item.quantity = quantity 
+    session.add(item)
+    session.commit()
+    session.refresh(item)
+
+    return item 
+    
+
+    
+
+
