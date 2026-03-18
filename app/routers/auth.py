@@ -59,7 +59,7 @@ def post_register(
         user = register_user(session, name.strip(), email, password)
         token = create_token_for_user(user)
         response = RedirectResponse(url="/profile", status_code=303)
-        response.set_cookie(key="access_token", value=token, http_only=True, max_age=86400)
+        response.set_cookie(key="access_token", value=token, httponly=True, max_age=86400)
 
         return response 
     
