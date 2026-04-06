@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block title %}Заказы — Админ | RoboMarket{% endblock %}
+
+{% block content %}
+<section class="admin-section">
+    <div class="container">
+        <h1 class="page-title">📋 Управление заказами</h1>
+
+        {% if success %}
+            <div class="alert alert-success">{{ success }}</div>
+        {% endif %}
+
+        {% if orders %}
+        <div class="admin-table-wrapper">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Клиент</th>
+                        <th>Email</th>
+                        <th>Сумма</th>
+                        <th>Позиций</th>
+                        <th>Дата</th>
+                        <th>Статус</th>
+                        <th>Действие</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for data in orders %}
+                    <tr>
+                        <td>#{{ data.order.id }}</td>
+                        <td>{{ data.user_name }}</td>
+                        <td>{{ data.user_email }}</td>
+                        <td>{{ "%.0f"|format(data.order.total_price) }} ₽</td>
+                        <td>{{ data.items_count }}</td>
+                        <td>{{ data.order.created_at.strftime('%d.%m.%Y %H:%M') }}</td>
+                        <td>
+                            <span class="order-status status-{{ data.order.status }}">
+                                {% if data.order.status == "created" %}Создан
+                                {% elif data.order.status == "confirmed" %}Подтверждён
+                                {% elif data.order.status == "shipped" %}Отправлен
+                                {% elif data.order.status == "completed" %}Завершён
+                                {% elif data.order.status == "cancelled" %}Отменён
+                                {% endif %}
+                            </span>
+                        </td>
+                        <td>
+                            <form method="post" action="/admin/orders/{{ data.order.id }}/status" class="status-form">
+                                <select name="status" class="status-select">
+                                    <option value="created" {% if data.order.status == "created" %}selected{% endif %}>Создан</option>
+                                    <option value="confirmed" {% if data.order.status == "confirmed" %}selected{% endif %}>Подтверждён</option>
+                                    <option value="shipped" {% if data.order.status == "shipped" %}selected{% endif %}>Отправлен</option>
+                                    <option value="completed" {% if data.order.status == "completed" %}selected{% endif %}>Завершён</option>
+                                    <option value="cancelled" {% if data.order.status == "cancelled" %}selected{% endif %}>Отменён</option>
+                                </select>
+                                <button type="submit" class="btn btn-primary btn-sm">Обновить</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <p class="empty-icon">📋</p>
+            <h3>Заказов пока нет</h3>
+            <p>Здесь будут отображаться заказы пользователей</p>
+        </div>
+        {% endif %}
+
+        <div class="admin-footer-actions">
+            <a href="/admin" class="btn btn-outline">← Назад в админ-панель</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

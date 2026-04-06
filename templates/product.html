@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}{{ product.name }} — RoboMarket{% endblock %}
+
+{% block content %}
+<section class="product-detail">
+    <div class="container">
+        <a href="/catalog" class="back-link">← Назад в каталог</a>
+
+        <div class="product-detail-grid">
+            <div class="product-detail-image">
+                <img src="{{ product.image_url }}" alt="{{ product.name }}">
+            </div>
+            <div class="product-detail-info">
+                <span class="product-category-tag">{{ category.name if category else "Без категории" }}</span>
+                <h1>{{ product.name }}</h1>
+                <p class="product-short-desc">{{ product.short_description }}</p>
+                
+                <div class="product-price-block">
+                    <span class="product-detail-price">{{ "%.0f"|format(product.price) }} ₽</span>
+                    {% if product.stock > 0 %}
+                        <span class="stock-badge in-stock">В наличии ({{ product.stock }} шт.)</span>
+                    {% else %}
+                        <span class="stock-badge out-of-stock">Нет в наличии</span>
+                    {% endif %}
+                </div>
+
+                {% if product.stock > 0 %}
+                <form method="post" action="/cart/add" class="add-to-cart-form">
+                    <input type="hidden" name="product_id" value="{{ product.id }}">
+                    <div class="quantity-control">
+                        <label for="quantity">Количество:</label>
+                        <input type="number" name="quantity" id="quantity" value="1" min="1" max="{{ product.stock }}" class="quantity-input">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-lg">🛒 Добавить в корзину</button>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="product-full-description">
+            <h2>Описание</h2>
+            <p>{{ product.full_description }}</p>
+        </div>
+    </div>
+</section>
+{% endblock %}

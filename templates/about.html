@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block title %}О нас — RoboMarket{% endblock %}
+
+{% block content %}
+<section class="about-section">
+    <div class="container">
+        <h1 class="page-title">О проекте RoboMarket</h1>
+        
+        <div class="about-grid">
+            <div class="about-text">
+                <h2>Что такое RoboMarket?</h2>
+                <p>RoboMarket — это онлайн-магазин робототехнических товаров, созданный для студентов, преподавателей и любителей электроники. Мы собрали всё необходимое для ваших проектов: от простых датчиков до полноценных робототехнических наборов.</p>
+                
+                <h2>Наша миссия</h2>
+                <p>Мы верим, что робототехника — это не только технологии будущего, но и мощный инструмент для обучения. Наша цель — сделать робототехнику доступной для каждого, кто хочет учиться, экспериментировать и создавать.</p>
+                
+                <h2>Для кого этот сайт?</h2>
+                <ul class="about-list">
+                    <li>🎓 <strong>Студенты</strong> — изучающие робототехнику, электронику и программирование микроконтроллеров</li>
+                    <li>👨‍🏫 <strong>Преподаватели</strong> — ищущие качественные наборы для учебных программ</li>
+                    <li>🔧 <strong>Любители</strong> — увлекающиеся Arduino, ESP32, Raspberry Pi и DIY-проектами</li>
+                    <li>👨‍👩‍👧‍👦 <strong>Родители</strong> — желающие познакомить детей с технологиями через практику</li>
+                </ul>
+
+                <h2>Почему робототехника?</h2>
+                <p>Робототехника объединяет в себе программирование, электронику, механику и творчество. Она развивает:</p>
+                <ul class="about-list">
+                    <li>⚡ Алгоритмическое мышление</li>
+                    <li>🔬 Навыки исследования и эксперимента</li>
+                    <li>🛠 Практические инженерные навыки</li>
+                    <li>🤝 Умение работать в команде</li>
+                    <li>💡 Креативный подход к решению задач</li>
+                </ul>
+            </div>
+
+            <div class="about-sidebar">
+                <div class="info-card">
+                    <h3>📊 Наш магазин</h3>
+                    <div class="info-stats">
+                        <div class="stat">
+                            <span class="stat-number">100+</span>
+                            <span class="stat-label">Товаров</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">8</span>
+                            <span class="stat-label">Категорий</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">500+</span>
+                            <span class="stat-label">Клиентов</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <h3>🏷 Популярные платформы</h3>
+                    <div class="tags">
+                        <span class="tag">Arduino</span>
+                        <span class="tag">ESP32</span>
+                        <span class="tag">Raspberry Pi</span>
+                        <span class="tag">STM32</span>
+                        <span class="tag">micro:bit</span>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <h3>📞 Свяжитесь с нами</h3>
+                    <p>Есть вопросы по товарам или нужна помощь с проектом?</p>
+                    <a href="/contacts" class="btn btn-primary btn-block">Написать нам</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}Каталог — RoboMarket{% endblock %}
+
+{% block content %}
+<section class="catalog-section">
+    <div class="container">
+        <h1 class="page-title">Каталог товаров</h1>
+
+        <!-- Фильтры и поиск -->
+        <div class="catalog-controls">
+            <form class="search-form" method="get" action="/catalog">
+                <input type="text" name="search" placeholder="Поиск по названию..." 
+                       value="{{ search_query }}" class="search-input">
+                {% if current_category %}
+                    <input type="hidden" name="category_id" value="{{ current_category }}">
+                {% endif %}
+                <button type="submit" class="btn btn-primary">🔍 Найти</button>
+            </form>
+
+            <div class="category-filter">
+                <a href="/catalog" class="filter-tag {% if not current_category %}active{% endif %}">Все</a>
+                {% for cat in categories %}
+                    <a href="/catalog?category_id={{ cat.id }}{% if search_query %}&search={{ search_query }}{% endif %}" 
+                       class="filter-tag {% if current_category == cat.id %}active{% endif %}">
+                        {{ cat.name }}
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Список товаров -->
+        {% if products %}
+        <div class="products-grid">
+            {% for product in products %}
+            <article class="product-card">
+                <div class="product-image">
+                    <img src="{{ product.image_url }}" alt="{{ product.name }}" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">{{ product.name }}</h3>
+                    <p class="product-description">{{ product.short_description }}</p>
+                    <div class="product-footer">
+                        <span class="product-price">{{ "%.0f"|format(product.price) }} ₽</span>
+                        <div class="product-actions">
+                            <a href="/product/{{ product.id }}" class="btn btn-primary btn-sm">Подробнее</a>
+                        </div>
+                    </div>
+                    {% if product.stock > 0 %}
+                        <span class="stock-badge in-stock">В наличии</span>
+                    {% else %}
+                        <span class="stock-badge out-of-stock">Нет в наличии</span>
+                    {% endif %}
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <p class="empty-icon">🔍</p>
+            <h3>Товары не найдены</h3>
+            <p>Попробуйте изменить параметры поиска или выбрать другую категорию</p>
+            <a href="/catalog" class="btn btn-outline">Сбросить фильтры</a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

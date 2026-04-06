@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}Личный кабинет — RoboMarket{% endblock %}
+
+{% block content %}
+<section class="profile-section">
+    <div class="container">
+        <h1 class="page-title">Личный кабинет</h1>
+
+        {% if success %}
+            <div class="alert alert-success">{{ success }}</div>
+        {% endif %}
+        {% if error %}
+            <div class="alert alert-error">{{ error }}</div>
+        {% endif %}
+
+        <div class="profile-grid">
+            <!-- Информация о пользователе -->
+            <div class="profile-info-card">
+                <h2>👤 Профиль</h2>
+                <div class="profile-details">
+                    <p><strong>Имя:</strong> {{ user.name }}</p>
+                    <p><strong>Email:</strong> {{ user.email }}</p>
+                    <p><strong>Роль:</strong> {{ "Администратор" if user.role == "admin" else "Пользователь" }}</p>
+                    <p><strong>Дата регистрации:</strong> {{ user.created_at.strftime('%d.%m.%Y') }}</p>
+                </div>
+
+                <h3>Изменить имя</h3>
+                <form method="post" action="/profile/update" class="form profile-form">
+                    <div class="form-row">
+                        <input type="text" name="name" value="{{ user.name }}" required class="form-input">
+                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Заказы -->
+            <div class="orders-section">
+                <h2>📋 Мои заказы</h2>
+                {% if orders %}
+                    {% for order_data in orders %}
+                    <div class="order-card">
+                        <div class="order-header">
+                            <span class="order-id">Заказ #{{ order_data.order.id }}</span>
+                            <span class="order-date">{{ order_data.order.created_at.strftime('%d.%m.%Y %H:%M') }}</span>
+                            <span class="order-status status-{{ order_data.order.status }}">
+                                {% if order_data.order.status == "created" %}Создан
+                                {% elif order_data.order.status == "confirmed" %}Подтверждён
+                                {% elif order_data.order.status == "shipped" %}Отправлен
+                                {% elif order_data.order.status == "completed" %}Завершён
+                                {% elif order_data.order.status == "cancelled" %}Отменён
+                                {% endif %}
+                            </span>
+                        </div>
+                        <div class="order-items">
+                            {% for item in order_data.order_items %}
+                            <div class="order-item">
+                                <span>{{ item.product_name }} × {{ item.quantity }}</span>
+                                <span>{{ "%.0f"|format(item.subtotal) }} ₽</span>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="order-total">
+                            <strong>Итого: {{ "%.0f"|format(order_data.order.total_price) }} ₽</strong>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="empty-state">
+                        <p class="empty-icon">📦</p>
+                        <h3>У вас пока нет заказов</h3>
+                        <p>Перейдите в каталог и выберите интересующие товары</p>
+                        <a href="/catalog" class="btn btn-primary">Перейти в каталог</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

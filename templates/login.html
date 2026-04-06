@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Вход — RoboMarket{% endblock %}
+
+{% block content %}
+<section class="auth-section">
+    <div class="container">
+        <div class="auth-card">
+            <h1>Войти в аккаунт</h1>
+            <p class="auth-subtitle">Введите ваш email и пароль для входа</p>
+
+            {% if error %}
+                <div class="alert alert-error">{{ error }}</div>
+            {% endif %}
+
+            <form method="post" action="/auth/login" class="form" id="login-form">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required placeholder="ivan@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="password">Пароль</label>
+                    <input type="password" id="password" name="password" required placeholder="Ваш пароль">
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg btn-block">Войти</button>
+            </form>
+
+            <p class="auth-footer">Нет аккаунта? <a href="/register">Зарегистрироваться</a></p>
+        </div>
+    </div>
+</section>
+{% endblock %}

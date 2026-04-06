@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}RoboMarket{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="/static/css/style.css">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Шапка сайта — Glassmorphism -->
+    <header class="header" id="header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🤖</span>
+                <span class="logo-text">RoboMarket</span>
+            </a>
+            <nav class="nav">
+                <a href="/" class="nav-link">Главная</a>
+                <a href="/catalog" class="nav-link">Каталог</a>
+                <a href="/about" class="nav-link">О нас</a>
+                <a href="/contacts" class="nav-link">Контакты</a>
+            </nav>
+            <div class="header-actions">
+                {% if user %}
+                    <a href="/cart" class="nav-link cart-link">
+                        🛒 Корзина
+                        {% if cart_count > 0 %}
+                            <span class="cart-badge">{{ cart_count }}</span>
+                        {% endif %}
+                    </a>
+                    <a href="/profile" class="nav-link">👤 {{ user.name }}</a>
+                    {% if user.role == "admin" %}
+                        <a href="/admin" class="nav-link admin-link">⚙ Админ</a>
+                    {% endif %}
+                    <a href="/auth/logout" class="btn btn-outline btn-sm">Выйти</a>
+                {% else %}
+                    <a href="/login" class="btn btn-ghost btn-sm">Войти</a>
+                    <a href="/register" class="btn btn-primary btn-sm">Регистрация</a>
+                {% endif %}
+            </div>
+            <button class="burger" id="burger" aria-label="Меню">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Мобильное меню -->
+    <div class="mobile-menu" id="mobile-menu">
+        <a href="/" class="nav-link">Главная</a>
+        <a href="/catalog" class="nav-link">Каталог</a>
+        <a href="/about" class="nav-link">О нас</a>
+        <a href="/contacts" class="nav-link">Контакты</a>
+        {% if user %}
+            <a href="/cart" class="nav-link">🛒 Корзина ({{ cart_count }})</a>
+            <a href="/profile" class="nav-link">👤 {{ user.name }}</a>
+            {% if user.role == "admin" %}
+                <a href="/admin" class="nav-link">⚙ Админ-панель</a>
+            {% endif %}
+            <a href="/auth/logout" class="nav-link">Выйти</a>
+        {% else %}
+            <a href="/login" class="nav-link">Войти</a>
+            <a href="/register" class="nav-link">Регистрация</a>
+        {% endif %}
+    </div>
+
+    <!-- Основной контент -->
+    <main class="main">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Подвал -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>🤖 RoboMarket</h3>
+                    <p>Робототехника для обучения и практики. Наборы, датчики, платы и комплектующие для ваших проектов.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Навигация</h4>
+                    <a href="/">Главная</a>
+                    <a href="/catalog">Каталог</a>
+                    <a href="/about">О нас</a>
+                    <a href="/contacts">Контакты</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Категории</h4>
+                    <a href="/catalog?category_id=1">Наборы</a>
+                    <a href="/catalog?category_id=2">Контроллеры</a>
+                    <a href="/catalog?category_id=3">Датчики</a>
+                    <a href="/catalog?category_id=4">Моторы</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Контакты</h4>
+                    <p>📧 info@robomarket.ru</p>
+                    <p>📞 +7 (999) 123-45-67</p>
+                    <p>📍 Москва, ул. Робототехники, 42</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 RoboMarket. Все права защищены. Учебный проект.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/static/js/script.js"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

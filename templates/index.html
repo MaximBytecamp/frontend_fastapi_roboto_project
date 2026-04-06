@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block title %}RoboMarket — Робототехника для обучения{% endblock %}
+
+{% block content %}
+<!-- Hero-блок -->
+<section class="hero">
+    <div class="container">
+        <div class="hero-content">
+            <h1>Робототехника для <span class="highlight">обучения</span> и практики</h1>
+            <p class="hero-subtitle">Наборы, датчики, платы и комплектующие для ваших проектов. Соберите своего первого робота!</p>
+            <div class="hero-actions">
+                <a href="/catalog" class="btn btn-primary btn-lg">Перейти в каталог</a>
+                <a href="/about" class="btn btn-outline btn-lg">Узнать больше</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Преимущества -->
+<section class="features">
+    <div class="container">
+        <h2 class="section-title">Почему выбирают нас</h2>
+        <p class="section-subtitle">Всё необходимое для старта в робототехнике — в одном месте</p>
+        <div class="features-grid">
+            <div class="feature-card appear">
+                <div class="feature-icon">📦</div>
+                <h3>Широкий ассортимент</h3>
+                <p>Более 100 наименований: от простых датчиков до готовых робототехнических наборов</p>
+            </div>
+            <div class="feature-card appear">
+                <div class="feature-icon">🎓</div>
+                <h3>Для обучения</h3>
+                <p>Товары подобраны специально для студентов и начинающих в робототехнике</p>
+            </div>
+            <div class="feature-card appear">
+                <div class="feature-icon">⚡</div>
+                <h3>Быстрая доставка</h3>
+                <p>Отправляем заказы в течение 1–2 рабочих дней по всей России</p>
+            </div>
+            <div class="feature-card appear">
+                <div class="feature-icon">💡</div>
+                <h3>Поддержка</h3>
+                <p>Консультации по подбору компонентов и помощь с проектами</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Популярные товары -->
+<section class="popular-products">
+    <div class="container">
+        <h2 class="section-title">Популярные товары</h2>
+        <p class="section-subtitle">Самые востребованные позиции нашего каталога</p>
+        <div class="products-grid">
+            {% for product in popular_products %}
+            <article class="product-card appear">
+                <div class="product-image">
+                    <img src="{{ product.image_url }}" alt="{{ product.name }}" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">{{ product.name }}</h3>
+                    <p class="product-description">{{ product.short_description }}</p>
+                    <div class="product-footer">
+                        <span class="product-price">{{ "%.0f"|format(product.price) }} ₽</span>
+                        <a href="/product/{{ product.id }}" class="btn btn-primary btn-sm">Подробнее</a>
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        <div class="section-action">
+            <a href="/catalog" class="btn btn-outline btn-lg">Смотреть весь каталог →</a>
+        </div>
+    </div>
+</section>
+
+<!-- CTA-блок -->
+<section class="cta">
+    <div class="container">
+        <div class="cta-content">
+            <h2>Готовы начать?</h2>
+            <p>Зарегистрируйтесь и получите доступ к полному каталогу робототехнических товаров</p>
+            <a href="/register" class="btn btn-primary btn-lg">Создать аккаунт</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

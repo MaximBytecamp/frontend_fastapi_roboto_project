@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Админ-панель — RoboMarket{% endblock %}
+
+{% block content %}
+<section class="admin-section">
+    <div class="container">
+        <h1 class="page-title">⚙ Админ-панель</h1>
+
+        <div class="admin-dashboard">
+            <a href="/admin/products" class="admin-card">
+                <div class="admin-card-icon">📦</div>
+                <h3>Управление товарами</h3>
+                <p>Добавить, редактировать или удалить товары</p>
+            </a>
+            <a href="/admin/orders" class="admin-card">
+                <div class="admin-card-icon">📋</div>
+                <h3>Управление заказами</h3>
+                <p>Просмотр и изменение статусов заказов</p>
+            </a>
+            <a href="/admin/products/create" class="admin-card">
+                <div class="admin-card-icon">➕</div>
+                <h3>Добавить товар</h3>
+                <p>Создать новую карточку товара</p>
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

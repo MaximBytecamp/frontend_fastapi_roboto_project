@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Корзина — RoboMarket{% endblock %}
+
+{% block content %}
+<section class="cart-section">
+    <div class="container">
+        <h1 class="page-title">🛒 Корзина</h1>
+
+        {% if error %}
+            <div class="alert alert-error">{{ error }}</div>
+        {% endif %}
+
+        {% if cart_items %}
+        <div class="cart-content">
+            <div class="cart-items">
+                {% for item in cart_items %}
+                <div class="cart-item">
+                    <div class="cart-item-image">
+                        <img src="{{ item.product_image }}" alt="{{ item.product_name }}">
+                    </div>
+                    <div class="cart-item-info">
+                        <h3>{{ item.product_name }}</h3>
+                        <p class="cart-item-price">{{ "%.0f"|format(item.price) }} ₽ за шт.</p>
+                    </div>
+                    <div class="cart-item-quantity">
+                        <form method="post" action="/cart/update" class="quantity-form">
+                            <input type="hidden" name="product_id" value="{{ item.product_id }}">
+                            <button type="button" class="qty-btn qty-minus" onclick="changeQuantity(this, -1)">−</button>
+                            <input type="number" name="quantity" value="{{ item.quantity }}" min="1" class="qty-input" onchange="this.form.submit()">
+                            <button type="button" class="qty-btn qty-plus" onclick="changeQuantity(this, 1)">+</button>
+                        </form>
+                    </div>
+                    <div class="cart-item-subtotal">
+                        <strong>{{ "%.0f"|format(item.subtotal) }} ₽</strong>
+                    </div>
+                    <div class="cart-item-remove">
+                        <form method="post" action="/cart/remove">
+                            <input type="hidden" name="product_id" value="{{ item.product_id }}">
+                            <button type="submit" class="btn-remove" title="Удалить">✕</button>
+                        </form>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="cart-summary">
+                <div class="cart-summary-card">
+                    <h3>Итого</h3>
+                    <div class="cart-total-line">
+                        <span>Товаров: {{ cart_items|length }}</span>
+                    </div>
+                    <div class="cart-total-price">
+                        <strong>{{ "%.0f"|format(cart_total) }} ₽</strong>
+                    </div>
+                    <form method="post" action="/orders/create">
+                        <button type="submit" class="btn btn-primary btn-lg btn-block">Оформить заказ</button>
+                    </form>
+                    <a href="/catalog" class="btn btn-outline btn-block">Продолжить покупки</a>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <p class="empty-icon">🛒</p>
+            <h3>Корзина пуста</h3>
+            <p>Добавьте товары из каталога, чтобы оформить заказ</p>
+            <a href="/catalog" class="btn btn-primary btn-lg">Перейти в каталог</a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
